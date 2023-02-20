@@ -1,7 +1,7 @@
 package com.lunatic.examportalbackend.controllers;
 
-import com.lunatic.examportalbackend.models.Category;
-import com.lunatic.examportalbackend.services.CategoryService;
+import com.lunatic.examportalbackend.models.Subject;
+import com.lunatic.examportalbackend.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,39 +9,39 @@ import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/api/category")
+@RequestMapping("/api/subject")
 
-public class CategoryController {
+public class SubjectController {
 
     @Autowired
-    private CategoryService categoryService;
+    private SubjectService subjectService;
 
     @PostMapping("/")
-    public ResponseEntity<?> addCategory(@RequestBody Category category) {
-        return ResponseEntity.ok(categoryService.addCategory(category));
+    public ResponseEntity<?> addSubject(@RequestBody Subject subject) {
+        return ResponseEntity.ok(subjectService.addSubject(subject));
     }
 
     @GetMapping("/")
-    public ResponseEntity<?> getCategories() {
-        return ResponseEntity.ok(categoryService.getCategories());
+    public ResponseEntity<?> getSubjects() {
+        return ResponseEntity.ok(subjectService.getSubjects());
     }
 
-    @GetMapping("/{categoryId}")
-    public ResponseEntity<?> getCategory(@PathVariable Long categoryId) {
-        return ResponseEntity.ok(categoryService.getCategory(categoryId));
+    @GetMapping("/{subjectId}")
+    public ResponseEntity<?> getSubject(@PathVariable Long subjectId) {
+        return ResponseEntity.ok(subjectService.getSubject(subjectId));
     }
 
-    @PutMapping("/{categoryId}")
-    public ResponseEntity<?> updateCategory(@PathVariable Long categoryId, @RequestBody Category category) {
-        if (categoryService.getCategory(categoryId) != null) {
-            return ResponseEntity.ok(categoryService.updateCategory(category));
+    @PutMapping("/{subjectId}")
+    public ResponseEntity<?> updateSubject(@PathVariable Long subjectId, @RequestBody Subject subject) {
+        if (subjectService.getSubject(subjectId) != null) {
+            return ResponseEntity.ok(subjectService.updateSubject(subject));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Category with id : " + String.valueOf(categoryId) + ", doesn't exists");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Subject with id : " + String.valueOf(subjectId) + ", doesn't exists");
     }
 
-    @DeleteMapping("/{categoryId}")
-    public ResponseEntity<?> deleteCategory(@PathVariable Long categoryId) {
-        categoryService.deleteCategory(categoryId);
+    @DeleteMapping("/{subjectId}")
+    public ResponseEntity<?> deleteSubject(@PathVariable Long subjectId) {
+        subjectService.deleteSubject(subjectId);
         return ResponseEntity.ok(true);
     }
 }

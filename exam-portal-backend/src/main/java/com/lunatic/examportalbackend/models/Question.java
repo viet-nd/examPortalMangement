@@ -5,13 +5,14 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Getter
 @Setter
 @ToString
 @Table(name = "questions")
-public class Question {
+public class Question extends BaseModule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

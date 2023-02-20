@@ -1,91 +1,113 @@
 package com.lunatic.examportalbackend.services.implementation;
 
-import com.lunatic.examportalbackend.models.Category;
-import com.lunatic.examportalbackend.models.CategoryClass;
-import com.lunatic.examportalbackend.models.Role;
+import com.lunatic.examportalbackend.models.Subject;
+import com.lunatic.examportalbackend.models.SubClass;
 import com.lunatic.examportalbackend.models.User;
-import com.lunatic.examportalbackend.repository.CategoryClassRepository;
-import com.lunatic.examportalbackend.repository.CategoryRepository;
+import com.lunatic.examportalbackend.repository.SubClassRepository;
+import com.lunatic.examportalbackend.repository.SubjectRepository;
 import com.lunatic.examportalbackend.repository.UserRepository;
-import com.lunatic.examportalbackend.services.CategoryClassService;
+import com.lunatic.examportalbackend.services.SubClassService;
 import com.lunatic.examportalbackend.services.UserService;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.Query;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 @Service
-public class CategoryClassServiceImpl implements CategoryClassService {
+public class SubClassServiceImpl implements SubClassService {
 
     @Autowired
-    private CategoryClassRepository categoryClassRepository;
+    private SubClassRepository subClassRepository;
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SubjectRepository subjectRepository;
     @Autowired
     private UserRepository userRepository;
     @Autowired
     private UserService userService;
 
     @Override
-    public CategoryClass addCategoryClass(CategoryClass categoryClass) {
-        return categoryClassRepository.save(categoryClass);
+    public SubClass addSubClass(SubClass subClass) {
+        return subClassRepository.save(subClass);
     }
 
     @Override
-    public List<CategoryClass> getCategoryClasses() {
-        return categoryClassRepository.findAll();
+    public List<SubClass> getSubClasses() {
+        return subClassRepository.findAll();
     }
 
     @Override
-    public List<CategoryClass> getCategoryClassByCatId(Category category) {
-        return categoryClassRepository.findByCategory(category);
+    public List<SubClass> getSubClassBySubId(Subject subject) {
+        return subClassRepository.findBySubject(subject);
     }
 
     @Override
-    public List<CategoryClass> getCategoryClassByUserId(User user) {
-        return categoryClassRepository.findByUsers(user);
+    public List<SubClass> getSubClassByUserId(User user) {
+        return subClassRepository.findByUsers(user);
+    }
+
+//    @Override
+//    public List<SubClass> getSubClassByManagerId(Long managerId) {
+//        Session session = sessionFactory.openSession();
+//        List<SubClass> results = new ArrayList<>();
+//
+//        try {
+//            Query query = session.createNativeQuery("SELECT * FROM subject_class WHERE" +
+//                    " create_by like :word", SubClass.class);
+//            query.setParameter("word", "%" + managerId + "%");
+//            results = query.getResultList();
+//        } catch (Exception ex) {
+//            ex.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//        return results;
+//    }
+
+    @Override
+    public SubClass getSubClass(Long subClassId) {
+        return subClassRepository.findById(subClassId).isPresent() ? subClassRepository.findById(subClassId).get() : null;
     }
 
     @Override
-    public CategoryClass getCategoryClass(Long catClassId) {
-        return categoryClassRepository.findById(catClassId).isPresent() ? categoryClassRepository.findById(catClassId).get() : null;
+    public SubClass updateCategoryClass(SubClass subClass) {
+        return subClassRepository.save(subClass);
     }
 
     @Override
-    public CategoryClass updateCategoryClass(CategoryClass categoryClass) {
-        return categoryClassRepository.save(categoryClass);
-    }
-
-    @Override
-    public Boolean joinCategoryClass(Long categoryClassId, Long userId) {
-        CategoryClass categoryClass = getCategoryClass(categoryClassId);
+    public Boolean joinSubClass(Long subClassId, Long userId) {
+        SubClass subClass = getSubClass(subClassId);
         User user = userService.getUser(userId);
-        Set<User> categoryUser = categoryClass.getUsers() != null ? categoryClass.getUsers() : new HashSet<>();
-        categoryUser.add(user);
-        categoryClass.setUsers(categoryUser);
+        Set<User> users = subClass.getUsers() != null ? subClass.getUsers() : new HashSet<>();
+        boolean result = users.add(user);
+        subClass.setUsers(users);
+        subClassRepository.save(subClass);
 
-        return (categoryClassRepository.save(categoryClass) != null) ? true : false;
+        return result;
     }
 
     @Override
-    public Boolean detachCategoryClass(Long categoryClassId, Long userId) {
-        CategoryClass categoryClass = getCategoryClass(categoryClassId);
+    public Boolean detachSubClass(Long subClassId, Long userId) {
+        SubClass subClass = getSubClass(subClassId);
         User user = userService.getUser(userId);
 
-        if (categoryClass.getUsers() == null) {
+        if (subClass.getUsers() == null) {
             return false;
         }
-        Set<User> categoryUser = categoryClass.getUsers();
-        categoryUser.remove(user);
-        categoryClass.setUsers(categoryUser);
-
-        return (categoryClassRepository.save(categoryClass) != null) ? true : false;
+        Set<User> subClassUsers = subClass.getUsers();
+        boolean result = subClassUsers.remove(user);
+        subClass.setUsers(subClassUsers);
+        subClassRepository.save(subClass);
+        return result;
     }
 
     @Override
-    public void deleteCategoryClass(Long categoryClassId) {
-        categoryClassRepository.delete(getCategoryClass(categoryClassId));
+    public void deleteSubClass(Long subClassId) {
+        subClassRepository.delete(getSubClass(subClassId));
     }
 }

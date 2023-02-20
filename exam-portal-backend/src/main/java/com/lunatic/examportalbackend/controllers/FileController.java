@@ -1,6 +1,5 @@
 package com.lunatic.examportalbackend.controllers;
 
-import com.lunatic.examportalbackend.models.FileUpload;
 import com.lunatic.examportalbackend.services.FileService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
@@ -17,24 +16,32 @@ import java.io.IOException;
 @CrossOrigin
 @RestController
 @RequestMapping("/api/file")
-public class FileUploadController {
+public class FileController {
 
     @Autowired
-    private FileService fileUploadService;
+    private FileService fileService;
 
-    @PostMapping("/upload")
-    public ResponseEntity<?> uploadFile(
+    @PostMapping("/avatar")
+    public ResponseEntity<?> uploadFileAvatar(
             @RequestParam("file") MultipartFile multipartFile) throws IOException {
         String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
-        String fileCode = fileUploadService.saveFile(fileName, multipartFile);
+        String fileCode = fileService.saveFileAvatar(fileName, multipartFile);
 
-        FileUpload fileUpload = new FileUpload();
-        fileUpload.setFileName(fileName);
-        fileUpload.setDownloadUri("file-upload/" + fileCode);
-        fileUpload.setSize(multipartFile.getSize());
+        return ResponseEntity.ok(fileCode);
+    }
 
+    @PostMapping("/question")
+    public ResponseEntity<?> uploadFileQuestion(
+            @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String fileCode = fileService.saveFileQuestion(fileName, multipartFile);
 
-        return ResponseEntity.ok(fileUpload);
+//        FileUpload fileUpload = new FileUpload();
+//        fileUpload.setFileName(fileName);
+//        fileUpload.setDownloadUri(fileCode);
+//        fileUpload.setSize(multipartFile.getSize());
+
+        return ResponseEntity.ok(fileCode);
     }
 
     @GetMapping("/download/{fileCode}")
@@ -42,7 +49,7 @@ public class FileUploadController {
             @PathVariable("fileCode") String fileCode) throws IOException {
         Resource resource = null;
         try {
-            resource = fileUploadService.getFile(fileCode);
+            resource = fileService.getFile(fileCode);
         } catch (IOException ioe) {
             return ResponseEntity.internalServerError().build();
         }
@@ -59,5 +66,43 @@ public class FileUploadController {
                 .contentType(MediaType.parseMediaType(contentType))
                 .header(HttpHeaders.CONTENT_DISPOSITION, headerValue)
                 .body(resource);
+    }
+
+    @GetMapping("/avatar/{fileCode}")
+    public ResponseEntity<byte[]> getImageAvatar(@PathVariable("fileCode") String fileCode) {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(fileService.getImageAvatar(fileCode));
+    }
+
+    @GetMapping("/question/{fileCode}")
+    public ResponseEntity<byte[]> getImageQuestion(@PathVariable("fileCode") String fileCode) {
+        return ResponseEntity.ok().contentType(MediaType.IMAGE_JPEG).body(fileService.getImageQuestion(fileCode));
+    }
+
+    @PutMapping("/avatar/{fileCode}")
+    public ResponseEntity<?> updateFileAvatar(
+            @PathVariable("fileCode") String fileCode,
+            @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String newFileCode = fileService.updateFileAvatar(fileName, fileCode, multipartFile);
+
+        return ResponseEntity.ok(newFileCode);
+    }
+
+    @PutMapping("/question/{fileCode}")
+    public ResponseEntity<?> updateFileQuestion(
+            @PathVariable("fileCode") String fileCode,
+            @RequestParam("file") MultipartFile multipartFile) throws IOException {
+        String fileName = StringUtils.cleanPath(multipartFile.getOriginalFilename());
+        String newFileCode = fileService.updateFileQuestion(fileName, fileCode, multipartFile);
+
+        return ResponseEntity.ok(newFileCode);
+    }
+
+    @DeleteMapping("/{fileCode}")
+    public ResponseEntity<?> deleteFileQuestion(
+            @RequestParam("type") String type,
+            @PathVariable("fileCode") String fileCode) throws IOException {
+
+        return ResponseEntity.ok(fileService.deleteFileCode(fileCode, type));
     }
 }

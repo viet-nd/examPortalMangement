@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./Sidebar.css";
+import "./SidebarAdmin.css";
 import { FaBars, FaUserAlt } from "react-icons/fa";
 import { MdQuiz } from "react-icons/md";
 import { NavLink } from "react-router-dom";

@@ -1,28 +1,30 @@
 package com.lunatic.examportalbackend.services;
 
-import com.lunatic.examportalbackend.models.Category;
-import com.lunatic.examportalbackend.models.CategoryClass;
+import com.lunatic.examportalbackend.models.Subject;
+import com.lunatic.examportalbackend.models.SubClass;
 import com.lunatic.examportalbackend.models.User;
 
 import java.util.List;
 
-public interface CategoryClassService {
+public interface SubClassService {
 
-    CategoryClass addCategoryClass (CategoryClass categoryClass);
+    SubClass addSubClass (SubClass subClass);
 
-    List<CategoryClass> getCategoryClasses();
+    List<SubClass> getSubClasses();
 
-    List<CategoryClass> getCategoryClassByCatId(Category category);
+    List<SubClass> getSubClassBySubId(Subject subject);
 
-    List<CategoryClass> getCategoryClassByUserId(User user);
+    List<SubClass> getSubClassByUserId(User user);
 
-    CategoryClass getCategoryClass(Long catClassId);
+//    List<SubClass> getSubClassByManagerId(Long managerId);
 
-    CategoryClass updateCategoryClass(CategoryClass categoryClass);
+    SubClass getSubClass(Long subClassId);
 
-    Boolean joinCategoryClass(Long categoryClassId, Long userId);
+    SubClass updateCategoryClass(SubClass subClass);
 
-    Boolean detachCategoryClass(Long categoryClassId, Long userId);
+    Boolean joinSubClass(Long categoryClassId, Long userId);
 
-    void deleteCategoryClass(Long categoryClassId);
+    Boolean detachSubClass(Long categoryClassId, Long userId);
+
+    void deleteSubClass(Long categoryClassId);
 }

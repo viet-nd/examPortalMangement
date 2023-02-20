@@ -2,7 +2,8 @@ import React, { useEffect } from "react";
 import { Table } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import Sidebar from "../../components/Sidebar";
+// import Sidebar from "../../components/SidebarAdmin";
+import Sidebar from "../../components/Sidebar/Sidebar";
 import "./AdminProfilePage.css";
 import Image from "react-bootstrap/Image";
 import { fetchCategories } from "../../actions/categoriesActions";
@@ -29,23 +30,25 @@ const AdminProfilePage = () => {
 
   return (
     <div className="adminProfilePage__container">
-      <div className="adminProfilePage__sidebar">
+      {/* <div className="adminProfilePage__sidebar">
         <Sidebar />
       </div>
+       */}
+      <Sidebar />
       <div className="adminProfilePage__content">
         <Image
           className="adminProfilePage__content--profilePic"
           width="20%"
           height="20%"
           roundedCircle
-          src="images/user.png"
+          src={"http://127.0.0.1:8081/api/file/avatar/" + user.avatar}
         />
 
         <Table bordered className="adminProfilePage__content--table">
           <tbody>
             <tr>
               <td>Name</td>
-              <td>{`${user.firstName} ${user.lastName}`}</td>
+              <td>{user.fullName}</td>
             </tr>
             <tr>
               <td>Username</td>

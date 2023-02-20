@@ -1,18 +1,18 @@
 package com.lunatic.examportalbackend.services;
 
-import com.lunatic.examportalbackend.models.Category;
+import com.lunatic.examportalbackend.models.Subject;
 
 import java.util.List;
 
-public interface CategoryService {
+public interface SubjectService {
 
-    Category addCategory(Category category);
+    Subject addSubject(Subject subject);
 
-    List<Category> getCategories();
+    List<Subject> getSubjects();
 
-    Category getCategory(Long catId);
+    Subject getSubject(Long subjectId);
 
-    Category updateCategory(Category category);
+    Subject updateSubject(Subject subject);
 
-    void deleteCategory(Long categoryId);
+    void deleteSubject(Long subjectId);
 }

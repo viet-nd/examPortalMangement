@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @ToString
 @Table(name = "quizzes")
-public class Quiz {
+public class Quiz extends BaseModule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,11 +33,17 @@ public class Quiz {
     @Column(name = "number_of_questions")
     private int numberOfQuestions;
 
+    @Column(name = "timer")
+    private int timer;
+
     @Column(name = "is_active")
     private boolean iActive = false;
 
+//    @ManyToOne(fetch = FetchType.EAGER)
+//    private Category category;
+
     @ManyToOne(fetch = FetchType.EAGER)
-    private Category category;
+    private SubClass subClass;
 
     @OneToMany(mappedBy = "quiz", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore

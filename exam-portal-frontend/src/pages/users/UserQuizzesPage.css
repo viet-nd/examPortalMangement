@@ -1,11 +1,13 @@
 .userQuizzesPage__container {
     display: flex;
+    flex-direction: column;
 }
 
-.userQuizzesPage__sidebar {
-    position: sticky;
-    top: 0;
-    height: 100vh;
+.userQuizzesPage__header {
+    display: flex;
+    padding: 20px;
+    min-height: 60px;
+    border-bottom: 1px solid var(--black);
 }
 
 .userQuizzesPage__content {

@@ -14,12 +14,12 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-@Table(name = "categories")
-public class Category extends BaseModule implements Serializable {
+@Table(name = "subjects")
+public class Subject extends BaseModule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long catId;
+    private Long subId;
 
     @Column(name = "title")
     private String title;
@@ -31,7 +31,7 @@ public class Category extends BaseModule implements Serializable {
 //    @JsonIgnore
 //    private List<Quiz> quizzes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subject", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<CategoryClass> categoryClasses = new ArrayList<>();
+    private List<SubClass> subClasses = new ArrayList<>();
 }

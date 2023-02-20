@@ -1,8 +1,8 @@
 package com.lunatic.examportalbackend.repository;
 
 
-import com.lunatic.examportalbackend.models.Category;
+import com.lunatic.examportalbackend.models.Subject;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface CategoryRepository extends JpaRepository<Category, Long> {
+public interface SubjectRepository extends JpaRepository<Subject, Long> {
 }

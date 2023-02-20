@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import "./AdminUpdateQuiz.css";
 import swal from "sweetalert";
 import { useDispatch, useSelector } from "react-redux";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import FormContainer from "../../../components/FormContainer";
 import * as quizzesConstants from "../../../constants/quizzesConstants";
 import { fetchCategories } from "../../../actions/categoriesActions";

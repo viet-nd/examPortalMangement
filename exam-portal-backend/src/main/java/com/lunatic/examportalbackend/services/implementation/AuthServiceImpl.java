@@ -16,7 +16,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletContext;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -44,6 +49,21 @@ public class AuthServiceImpl implements AuthService {
             throw new Exception("User Already Exists");
         } else {
             Role role = roleRepository.findById("USER").isPresent() ? roleRepository.findById("USER").get() : null;
+            Set<Role> userRoles = new HashSet<>();
+            userRoles.add(role);
+            user.setRoles(userRoles);
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            return userRepository.save(user);
+        }
+    }
+
+    @Override
+    public User registerOfAdminService(String roleStr, User user) throws Exception {
+        User temp = userRepository.findByUsername(user.getUsername());
+        if (temp != null) {
+            throw new Exception("User Already Exists");
+        } else {
+            Role role = roleRepository.findById(roleStr).isPresent() ? roleRepository.findById(roleStr).get() : null;
             Set<Role> userRoles = new HashSet<>();
             userRoles.add(role);
             user.setRoles(userRoles);

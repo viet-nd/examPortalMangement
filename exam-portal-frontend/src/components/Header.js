@@ -9,6 +9,7 @@ const Header = () => {
   const loginReducer = useSelector((state) => state.loginReducer);
   const [isLoggedIn, setIsLoggedIn] = useState(loginReducer.loggedIn);
   let profilePageUrl = "";
+  const [showHeader, setShowHeader] = useState(false);
 
   const logoutHandler = () => {
     setIsLoggedIn(false);
@@ -17,7 +18,9 @@ const Header = () => {
   };
 
   useEffect(() => {
+    setShowHeader(false);
     if (localStorage.getItem("jwtToken")) {
+      setShowHeader(true);
       setIsLoggedIn(true);
       loginReducer.user.roles.map((r) => {
         if (r["roleName"] === "ADMIN") {
@@ -30,36 +33,40 @@ const Header = () => {
   }, [navigate]);
 
   return (
-    <header>
-      <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
-        <Container>
-            <Navbar.Brand>Exam-Portal</Navbar.Brand>
+    <div>
+      {showHeader && (
+        <header>
+          <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
+            <Container>
+              <Navbar.Brand>Exam-Portal</Navbar.Brand>
 
-          <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-          <Navbar.Collapse id="responsive-navbar-nav">
-            <Nav className="justify-content-end flex-grow-1 pe-3">
-              {isLoggedIn ? (
-                  <Nav.Link>{loginReducer.user.firstName}</Nav.Link>
-              ) : (
-                <LinkContainer to="/">
-                  <Nav.Link>Login</Nav.Link>
-                </LinkContainer>
-              )}
+              <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+              <Navbar.Collapse id="responsive-navbar-nav">
+                <Nav className="justify-content-end flex-grow-1 pe-3">
+                  {isLoggedIn ? (
+                    <Nav.Link>{loginReducer.user.firstName}</Nav.Link>
+                  ) : (
+                    <LinkContainer to="/">
+                      <Nav.Link>Login</Nav.Link>
+                    </LinkContainer>
+                  )}
 
-              {isLoggedIn ? (
-                <LinkContainer to="/">
-                  <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
-                </LinkContainer>
-              ) : (
-                <LinkContainer to="/register">
-                  <Nav.Link>Register</Nav.Link>
-                </LinkContainer>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-      </Navbar>
-    </header>
+                  {isLoggedIn ? (
+                    <LinkContainer to="/">
+                      <Nav.Link onClick={logoutHandler}>Logout</Nav.Link>
+                    </LinkContainer>
+                  ) : (
+                    <LinkContainer to="/register">
+                      <Nav.Link>Register</Nav.Link>
+                    </LinkContainer>
+                  )}
+                </Nav>
+              </Navbar.Collapse>
+            </Container>
+          </Navbar>
+        </header>
+      )}
+    </div>
   );
 };
 

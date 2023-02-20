@@ -49,7 +49,7 @@ public class QuestionController {
         if (questionService.getQuestion(questionId) != null) {
             return ResponseEntity.ok(questionService.updateQuestion(question));
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question with id : " + String.valueOf(questionId) + ", doesn't exists");
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Question with id : " + questionId + ", doesn't exists");
     }
 
     @DeleteMapping("/{questionId}")

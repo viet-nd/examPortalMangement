@@ -1,0 +1,20 @@
+.wrapper {
+}
+
+.header {
+  min-height: 40px;
+  border-bottom: 1px solid var(--black);
+  margin-bottom: 30px;
+  display: flex;
+  padding: 20px 0;
+}
+
+.choose-class {
+    width: 30%;
+    height: 50px;
+    margin-right: 2%;
+}
+
+.body {
+  /* display: grid; */
+}

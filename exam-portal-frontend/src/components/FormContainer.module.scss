@@ -1,0 +1,24 @@
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 680px;
+    background-image: url("../assets/images/backgroundSignUp.png");
+    background-size: 1500px 680px;
+}
+
+.container {
+    width: 30%;
+    height: 60%;
+    border: 1px solid #bdc3c7;
+    border-radius: 25px;
+    box-shadow: 1px 1px 1px 5px #bdc3c7;
+    background-color: var(--white);
+}
+
+.content {
+    padding: 5%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}

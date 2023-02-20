@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { fetchQuestionsByQuiz } from "../../../actions/questionsActions";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import Question from "../../../components/Question";
 import Loader from "../../../components/Loader";
 

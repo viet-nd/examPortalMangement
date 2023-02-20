@@ -6,7 +6,7 @@ import { Button, ListGroup } from "react-bootstrap";
 import * as categoriesConstants from "../../../constants/categoriesConstants";
 import Loader from "../../../components/Loader";
 import Message from "../../../components/Message";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import {
   deleteCategory,
   fetchCategories,

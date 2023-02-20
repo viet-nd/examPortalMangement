@@ -1,41 +1,41 @@
 package com.lunatic.examportalbackend.services.implementation;
 
-import com.lunatic.examportalbackend.models.Category;
-import com.lunatic.examportalbackend.repository.CategoryRepository;
-import com.lunatic.examportalbackend.services.CategoryService;
+import com.lunatic.examportalbackend.models.Subject;
+import com.lunatic.examportalbackend.repository.SubjectRepository;
+import com.lunatic.examportalbackend.services.SubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CategoryServiceImpl implements CategoryService {
+public class SubjectServiceImpl implements SubjectService {
 
     @Autowired
-    private CategoryRepository categoryRepository;
+    private SubjectRepository subjectRepository;
 
     @Override
-    public Category addCategory(Category category) {
-        return categoryRepository.save(category);
+    public Subject addSubject(Subject subject) {
+        return subjectRepository.save(subject);
     }
 
     @Override
-    public List<Category> getCategories() {
-        return categoryRepository.findAll();
+    public List<Subject> getSubjects() {
+        return subjectRepository.findAll();
     }
 
     @Override
-    public Category getCategory(Long catId) {
-        return categoryRepository.findById(catId).isPresent() ? categoryRepository.findById(catId).get() : null;
+    public Subject getSubject(Long subjectId) {
+        return subjectRepository.findById(subjectId).isPresent() ? subjectRepository.findById(subjectId).get() : null;
     }
 
     @Override
-    public Category updateCategory(Category category) {
-        return categoryRepository.save(category);
+    public Subject updateSubject(Subject subject) {
+        return subjectRepository.save(subject);
     }
 
     @Override
-    public void deleteCategory(Long categoryId) {
-        categoryRepository.delete(getCategory(categoryId));
+    public void deleteSubject(Long subjectId) {
+        subjectRepository.delete(getSubject(subjectId));
     }
 }

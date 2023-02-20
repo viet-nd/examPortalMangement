@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import "./AdminAddQuiz.css";
 import { useDispatch, useSelector } from "react-redux";
 import swal from "sweetalert";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import FormContainer from "../../../components/FormContainer";
 import * as quizzesConstants from "../../../constants/quizzesConstants";
 import { addQuiz } from "../../../actions/quizzesActions";
@@ -163,9 +163,6 @@ const AdminAddQuiz = () => {
                 ) : (
                   <option value="">Choose one from below</option>
                 )}
-                {/* <option value="1">One</option>
-                  <option value="2">Two</option>
-                  <option value="3">Three</option> */}
               </Form.Select>
             </div>
             <Button

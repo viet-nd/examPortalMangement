@@ -4,7 +4,7 @@ import { Button, Form } from "react-bootstrap";
 import { useDispatch } from "react-redux";
 import * as categoriesConstants from "../../../constants/categoriesConstants";
 import FormContainer from "../../../components/FormContainer";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import {
   addCategory,
   fetchCategories,

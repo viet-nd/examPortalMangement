@@ -3,7 +3,7 @@ import { FaBars, FaUserAlt, FaRegChartBar } from "react-icons/fa";
 import { TbLayoutGrid, TbLayoutGridAdd } from "react-icons/tb";
 import { MdQuiz, MdQueue } from "react-icons/md";
 import { NavLink } from "react-router-dom";
-import "./Sidebar.css";
+import "./SidebarAdmin.css";
 
 const Sidebar = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);

@@ -6,11 +6,15 @@ import { categoriesReducer } from "./reducers/categoriesReducer";
 import { questionsReducer } from "./reducers/questionsReducer";
 import { quizResultReducer } from "./reducers/quizResultReducer";
 import { quizzesReducer } from "./reducers/quizzesReducer";
+import { subjectsReducer } from "./reducers/subjectsReducer";
+import { subClassReducer } from "./reducers/subClassReducer";
 
 const reducer = combineReducers({
   loginReducer: loginReducer,
   registerReducer: registerReducer,
   categoriesReducer: categoriesReducer,
+  subjectsReducer: subjectsReducer,
+  subClassReducer: subClassReducer,
   quizzesReducer: quizzesReducer,
   questionsReducer: questionsReducer,
   quizResultReducer: quizResultReducer,

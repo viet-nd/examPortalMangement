@@ -6,7 +6,7 @@ import swal from "sweetalert";
 import { useParams } from "react-router-dom";
 import * as categoriesConstants from "../../../constants/categoriesConstants";
 import FormContainer from "../../../components/FormContainer";
-import Sidebar from "../../../components/Sidebar";
+import Sidebar from "../../../components/SidebarAdmin";
 import { updateCategory } from "../../../actions/categoriesActions";
 import { useNavigate } from "react-router-dom";
 

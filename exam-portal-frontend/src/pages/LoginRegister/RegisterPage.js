@@ -1,17 +1,23 @@
-import React, { useState } from "react";
+/* eslint-disable jsx-a11y/alt-text */
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { register } from "../actions/authActions";
+import { register } from "../../actions/authActions";
 import { useDispatch, useSelector } from "react-redux";
-import Loader from "../components/Loader";
+import Loader from "../../components/Loader";
 import { Form, Button, InputGroup, Row, Col } from "react-bootstrap";
-import FormContainer from "../components/FormContainer";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
-import * as authConstants from "../constants/authConstants";
+import * as authConstants from "../../constants/authConstants";
 import { Link } from "react-router-dom";
 
+import { LoginSignupLayout } from "~/layouts/LoginSignupLayout";
+import classNames from "classnames/bind";
+import styles from "./RegisterPage.module.scss";
+import { uploadAvatar } from "../../actions/fileActions";
+
+const cx = classNames.bind(styles);
+
 const RegisterPage = () => {
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
+  const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -47,37 +53,99 @@ const RegisterPage = () => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    const user = {
-      firstName: firstName,
-      lastName: lastName,
-      username: username,
-      password: password,
-      phoneNumber: phoneNumber,
-    };
-    register(dispatch, user).then((data) => {
-      if (data.type === authConstants.USER_REGISTER_SUCCESS) {
-        navigate("/login");
-      }
-    });
+    // const user = {
+    //   firstName: firstName,
+    //   lastName: lastName,
+    //   username: username,
+    //   password: password,
+    //   phoneNumber: phoneNumber,
+    // };
+    // register(dispatch, user).then((data) => {
+    //   if (data.type === authConstants.USER_REGISTER_SUCCESS) {
+    //     navigate("/login");
+    //   }
+    // });
+
+    if (selectedFile) {
+      uploadAvatar(selectedFile).then((avatar) => {
+        console.log(`Chay ra den giao dien ${avatar}`);
+        const user = {
+          fullName: fullName,
+          username: username,
+          password: password,
+          phoneNumber: phoneNumber,
+          avatar: avatar,
+        };
+        console.log("Sau khi co anh");
+        console.log(user);
+        register(dispatch, user).then((data) => {
+          if (data.type === authConstants.USER_REGISTER_SUCCESS) {
+            navigate("/login");
+          }
+        });
+      });
+    }
+    else {
+      const user = {
+        fullName: fullName,
+        username: username,
+        password: password,
+        phoneNumber: phoneNumber,
+      };
+      console.log("khong them anh");
+      console.log(user);
+      register(dispatch, user).then((data) => {
+        if (data.type === authConstants.USER_REGISTER_SUCCESS) {
+          navigate("/login");
+        }
+      });
+    }
+  };
+
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+
+  // create a preview as a side effect, whenever selected file is changed
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const onSelectFile = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+
+    // I've kept this example simple by using the first image instead of multiple
+    setSelectedFile(e.target.files[0]);
   };
 
   return (
-    <FormContainer>
-      <h1>Sign Up</h1>
-      <Form onSubmit={submitHandler}>
-        <Form.Group className="my-3" controlId="fname">
-          <Form.Label>First Name</Form.Label>
+    <LoginSignupLayout>
+      <h1>Register</h1>
+      <Form className={cx("wrapper")} onSubmit={submitHandler}>
+        <Form.Group className={cx("infoUser")} controlId="fname">
+          <Form.Label>Full Name</Form.Label>
           <Form.Control
             type="name"
-            placeholder="Enter First Name"
-            value={firstName}
+            placeholder="Enter Full Name"
+            value={fullName}
             onChange={(e) => {
-              setFirstName(e.target.value);
+              setFullName(e.target.value);
             }}
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group className="my-3" controlId="lname">
+        {/* <Form.Group className={cx("infoUser")} controlId="lname">
           <Form.Label>Last Name</Form.Label>
           <Form.Control
             type="name"
@@ -87,9 +155,9 @@ const RegisterPage = () => {
               setLastName(e.target.value);
             }}
           ></Form.Control>
-        </Form.Group>
+        </Form.Group> */}
 
-        <Form.Group className="my-3" controlId="username">
+        <Form.Group className={cx("infoUser")} controlId="username">
           <Form.Label>User Name</Form.Label>
           <Form.Control
             type="text"
@@ -101,7 +169,7 @@ const RegisterPage = () => {
           ></Form.Control>
         </Form.Group>
 
-        <Form.Group className="my-3" controlId="password">
+        <Form.Group className={cx("infoUser")} controlId="password">
           <Form.Label>Password</Form.Label>
           <InputGroup>
             <Form.Control
@@ -113,16 +181,16 @@ const RegisterPage = () => {
               }}
             ></Form.Control>
             <Button
+              className={cx("btn-showPassword")}
               onClick={showPasswordHandler}
               variant=""
-              style={{ border: "1px solid black" }}
             >
               {showPassword ? <FaEyeSlash /> : <FaEye />}
             </Button>
           </InputGroup>
         </Form.Group>
 
-        <Form.Group className="my-3" controlId="confirmPassword">
+        <Form.Group className={cx("infoUser")} controlId="confirmPassword">
           <Form.Label>Confirm Password</Form.Label>
           <InputGroup>
             <Form.Control
@@ -134,16 +202,16 @@ const RegisterPage = () => {
               }}
             ></Form.Control>
             <Button
+              className={cx("btn-showPassword")}
               onClick={showConfirmPasswordHandler}
               variant=""
-              style={{ border: "1px solid black" }}
             >
               {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
             </Button>
           </InputGroup>
         </Form.Group>
 
-        <Form.Group className="my-3" controlId="phoneNumber">
+        <Form.Group className={cx("infoUser")} controlId="phoneNumber">
           <Form.Label>Phone Number</Form.Label>
           <Form.Control
             type="tel"
@@ -154,7 +222,13 @@ const RegisterPage = () => {
             }}
           ></Form.Control>
         </Form.Group>
-        <Button variant="" className="my-3" type="submit" style={{backgroundColor:"rgb(68 177 49)", color:"white"}}>
+
+        <div>
+          <input type="file" onChange={onSelectFile} />
+          {selectedFile && <img src={preview} />}
+        </div>
+
+        <Button variant="" className={cx("btn-register")} type="submit">
           Register
         </Button>
       </Form>
@@ -162,14 +236,16 @@ const RegisterPage = () => {
       {registerReducer.loading ? (
         <Loader />
       ) : (
-        <Row className="py-3">
+        <Row>
           <Col>
-            Have an Account? <Link to="/" style={{color:"rgb(68 177 49)"}}>Login</Link>
+            Have an Account?{" "}
+            <Link to="/" className={cx("link-login")}>
+              Login
+            </Link>
           </Col>
         </Row>
       )}
-
-    </FormContainer>
+    </LoginSignupLayout>
   );
 };
 

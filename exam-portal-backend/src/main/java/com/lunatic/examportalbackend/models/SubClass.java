@@ -14,13 +14,12 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@ToString
-@Table(name = "category_class")
-public class CategoryClass extends BaseModule implements Serializable {
+@Table(name = "subject_class")
+public class SubClass extends BaseModule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long catClassId;
+    private Long subClassId;
 
     @Column(name = "name")
     private String name;
@@ -28,16 +27,19 @@ public class CategoryClass extends BaseModule implements Serializable {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "key_action")
-    private String keyAction;
+    @Column(name = "key_active")
+    private String keyActive;
+
+    @Column(name = "create_by")
+    private Long createBy;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Category category;
+    private Subject subject;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "category_class_user",
+    @JoinTable(name = "sub_class_user",
             joinColumns = {
-                    @JoinColumn(name = "cat_class_id")
+                    @JoinColumn(name = "sub_class_id")
             },
             inverseJoinColumns = {
                     @JoinColumn(name = "user_id")
@@ -45,7 +47,7 @@ public class CategoryClass extends BaseModule implements Serializable {
     )
     private Set<User> users;
 
-    @OneToMany(mappedBy = "categoryClass", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "subClass", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Quiz> quizzes = new ArrayList<>();
 }
