@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,7 +15,7 @@ import java.util.List;
 @Setter
 @ToString
 @Table(name = "categories")
-public class Category {
+public class Category extends BaseModule implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +27,11 @@ public class Category {
     @Column(name = "description")
     private String description;
 
+//    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
+//    @JsonIgnore
+//    private List<Quiz> quizzes = new ArrayList<>();
+
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)
     @JsonIgnore
-    private List<Quiz> quizzes = new ArrayList<>();
+    private List<CategoryClass> categoryClasses = new ArrayList<>();
 }
